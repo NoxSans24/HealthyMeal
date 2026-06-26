@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HealthyMeal - Splash Screen</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+            --border: #E5E7EB;
+            --success-green: #1B5E20;
+            --light-green: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: var(--font-sans);
+            padding: 20px;
+        }
+
+        .phone {
+            width: 100%;
+            max-width: 375px;
+            height: 100vh;
+            max-height: 780px;
+            min-height: 560px;
+            background: #FAF8F2;
+            border-radius: 36px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, .15);
+        }
+
+        /* ===== BACKGROUND WAVES ===== */
+        .bg-waves {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* ===== LOGO ===== */
+        .logo-box {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+            animation: pop 1s ease;
+        }
+
+        .logo {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* ===== TEXT ===== */
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--success-green);
+            letter-spacing: .3px;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #2E7D32;
+            text-align: center;
+            max-width: 230px;
+            line-height: 22px;
+        }
+
+        /* ===== LOADING BAR ===== */
+        .loading {
+            width: 130px;
+            height: 5px;
+            background: #C8E6C9;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .loading span {
+            display: block;
+            height: 100%;
+            width: 0%;
+            background: var(--success-green);
+            animation: loading 2.5s ease forwards;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes loading {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 65%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(.7);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.9s;
+            opacity: 0;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 400px) {
+            .phone {
+                border-radius: 24px;
+                max-height: 700px;
+                min-height: 520px;
+            }
+
+            .logo-box {
+                width: 76px;
+                height: 76px;
+            }
+
+            .logo-box svg {
+                width: 42px;
+                height: 42px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                max-width: 200px;
+            }
+
+            .loading {
+                width: 110px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .phone {
+                border-radius: 20px;
+                max-height: 620px;
+                min-height: 480px;
+            }
+
+            .logo-box {
+                width: 64px;
+                height: 64px;
+            }
+
+            .logo-box svg {
+                width: 36px;
+                height: 36px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                max-width: 180px;
+                line-height: 20px;
+            }
+
+            .loading {
+                width: 100px;
+                height: 4px;
+            }
+        }
+
+        @media (max-height: 650px) {
+            .phone {
+                max-height: 650px;
+                min-height: 480px;
+            }
+
+            .logo-box {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 12px;
+            }
+
+            .logo-box svg {
+                width: 38px;
+                height: 38px;
+            }
+
+            .title {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                max-width: 200px;
+                line-height: 18px;
+                margin-top: 6px;
+            }
+
+            .loading {
+                width: 110px;
+                height: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone">
+
+        <!-- ===== BACKGROUND WAVES ===== -->
+        <svg class="bg-waves" viewBox="0 0 375 780" preserveAspectRatio="none">
+            <path d="M0,780 L0,560 C60,520 100,600 160,580 C230,555 250,480 320,500 C355,510 365,540 375,560 L375,780 Z" fill="#1B5E20"/>
+            <path d="M0,780 L0,610 C70,580 110,650 170,630 C235,608 260,560 330,575 C355,580 365,600 375,610 L375,780 Z" fill="#4CAF50" opacity=".85"/>
+            <path d="M0,780 L0,660 C80,640 130,700 190,680 C250,660 280,630 340,645 C355,648 365,655 375,660 L375,780 Z" fill="#A5D6A7" opacity=".7"/>
+
+            <!-- Decorative elements -->
+            <g opacity=".45">
+                <ellipse cx="55" cy="120" rx="13" ry="22" fill="#66BB6A" transform="rotate(-30 55 120)"/>
+                <ellipse cx="320" cy="90" rx="11" ry="19" fill="#81C784" transform="rotate(25 320 90)"/>
+                <ellipse cx="300" cy="220" rx="12" ry="20" fill="#66BB6A" transform="rotate(60 300 220)"/>
+                <ellipse cx="40" cy="250" rx="10" ry="17" fill="#A5D6A7" transform="rotate(-50 40 250)"/>
+            </g>
+
+            <!-- Additional decoration -->
+            <circle cx="330" cy="180" r="8" fill="#81C784" opacity=".3"/>
+            <circle cx="50" cy="320" r="6" fill="#A5D6A7" opacity=".3"/>
+            <circle cx="310" cy="350" r="10" fill="#66BB6A" opacity=".2"/>
+        </svg>
+
+        <!-- ===== CONTENT ===== -->
+        <div style="position:absolute;top:38%;left:0;right:0;display:flex;flex-direction:column;align-items:center;z-index:1;">
+
+            <!-- Logo -->
+            <div class="logo-box">
+                <svg class="logo" width="50" height="50" viewBox="0 0 48 48">
+                    <path d="M24 6 C26 6 27 10 25 13 C23 10 22 6 24 6 Z" fill="#1B5E20"/>
+                    <path d="M24 8 C28 8 30 12 27 15 C24 12 22 9 24 8 Z" fill="#43A047"/>
+                    <path d="M8 22 C8 34 16 40 24 40 C32 40 40 34 40 22 Z" fill="#1B5E20"/>
+                    <ellipse cx="24" cy="22" rx="16" ry="4" fill="#2E7D32"/>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <div class="title fade-in fade-in-delay-1">
+                HealthyMeal
+            </div>
+
+            <!-- Subtitle -->
+            <div class="subtitle fade-in fade-in-delay-2">
+                Makan sehat tanpa ribet.<br>
+                Menu bergizi, praktis, dan selalu segar.
+            </div>
+
+        </div>
+
+        <!-- ===== LOADING BAR ===== -->
+        <div style="position:absolute;bottom:48px;left:0;right:0;display:flex;justify-content:center;z-index:1;">
+            <div class="loading fade-in fade-in-delay-3">
+                <span></span>
+            </div>
+        </div>
+
+        <!-- ===== VERSION ===== -->
+        <div style="position:absolute;bottom:16px;left:0;right:0;text-align:center;z-index:1;">
+            <p style="font-size:10px;color:rgba(255,255,255,0.5);font-family:var(--font-sans);">v2.0.0</p>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== AUTO REDIRECT AFTER SPLASH =====
+            const SPLASH_DURATION = 3000; // 3 seconds
+
+            console.log('🟢 HealthyMeal Splash Screen');
+            console.log('⏳ Aplikasi akan dimulai dalam ' + (SPLASH_DURATION / 1000) + ' detik...');
+
+            // Redirect after splash duration
+            setTimeout(function() {
+                console.log('🚀 Mengalihkan ke halaman onboarding...');
+                window.location.href = 'healthymeal_onboarding_organic.html';
+            }, SPLASH_DURATION);
+
+            // ===== KEYBOARD SUPPORT =====
+            document.addEventListener('keydown', function(e) {
+                // Skip splash with Enter or Space
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    console.log('⏭️ Skip splash screen');
+                    window.location.href = 'healthymeal_onboarding_organic.html';
+                }
+            });
+
+            // ===== TOUCH SUPPORT =====
+            let touchCount = 0;
+            document.querySelector('.phone').addEventListener('click', function() {
+                touchCount++;
+                if (touchCount >= 2) {
+                    console.log('⏭️ Double tap - skip splash');
+                    window.location.href = 'healthymeal_onboarding_organic.html';
+                }
+                // Reset touch count after 1 second
+                clearTimeout(window.touchTimer);
+                window.touchTimer = setTimeout(function() {
+                    touchCount = 0;
+                }, 1000);
+            });
+
+            // ===== PROGRESS TRACKING =====
+            const loadingBar = document.querySelector('.loading span');
+            if (loadingBar) {
+                // Track loading progress
+                let progress = 0;
+                const interval = setInterval(function() {
+                    progress += 2;
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                    }
+                }, 50);
+            }
+
+            console.log('💡 Tips:');
+            console.log('   - Tekan Enter/Space untuk skip');
+            console.log('   - Double tap untuk skip');
+            console.log('   - Tunggu ' + (SPLASH_DURATION / 1000) + ' detik untuk auto redirect');
+
+        })();
+    </script>
+
+</body>
+</html>

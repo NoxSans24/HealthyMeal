@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Checkout</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <style>
+        /* ============================================
+           ROOT VARIABLES
+           ============================================ */
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+
+            --border: #E5E7EB;
+            --border-strong: #D1D5DB;
+
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+
+            --background: #FAF8F2;
+            --success-green: #1B5E20;
+            --light-green: #4CAF50;
+            --light-green-bg: #E8F5E9;
+            --orange: #FFA726;
+            --danger: #D85A30;
+        }
+
+        /* ============================================
+           RESET & GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ============================================
+           APP CONTAINER
+           ============================================ */
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            background: var(--background);
+            border-radius: 36px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            font-family: var(--font-sans);
+            position: relative;
+            min-height: 700px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding-bottom: 80px;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 20px 4px;
+        }
+
+        .header .back-btn {
+            font-size: 18px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .header .back-btn:hover {
+            color: var(--success-green);
+            transform: translateX(-3px);
+        }
+
+        .header .title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           CONTENT
+           ============================================ */
+        .content {
+            padding: 16px 20px 140px;
+        }
+
+        /* ============================================
+           SECTION
+           ============================================ */
+        .section-title {
+            margin: 0 0 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           ADDRESS CARD
+           ============================================ */
+        .address-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .address-card:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+            transform: translateY(-2px);
+        }
+
+        .address-card .icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--light-green-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .address-card .icon-box i {
+            font-size: 16px;
+            color: var(--success-green);
+        }
+
+        .address-card .info {
+            flex: 1;
+        }
+
+        .address-card .info .label {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .address-card .info .address {
+            margin: 3px 0 0;
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .address-card .change-btn {
+            font-size: 11px;
+            color: var(--success-green);
+            font-weight: 500;
+            flex-shrink: 0;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            transition: color 0.3s ease;
+            padding: 2px 4px;
+        }
+
+        .address-card .change-btn:hover {
+            color: #2E7D32;
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           SCHEDULE CARD
+           ============================================ */
+        .schedule-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .schedule-card:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+            transform: translateY(-2px);
+        }
+
+        .schedule-card .icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--light-green-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .schedule-card .icon-box i {
+            font-size: 16px;
+            color: var(--success-green);
+        }
+
+        .schedule-card .info {
+            flex: 1;
+        }
+
+        .schedule-card .info .date {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .schedule-card .info .time {
+            margin: 3px 0 0;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .schedule-card .chevron {
+            font-size: 15px;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .schedule-card:hover .chevron {
+            transform: translateX(3px);
+        }
+
+        /* ============================================
+           PAYMENT METHODS
+           ============================================ */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .payment-item {
+            background: #fff;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 0.5px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .payment-item:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .payment-item.active {
+            border: 1px solid var(--success-green);
+            background: #F8FBF8;
+        }
+
+        .payment-item .icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .payment-item .icon-box.green {
+            background: var(--light-green-bg);
+        }
+
+        .payment-item .icon-box.gray {
+            background: #F1EFE8;
+        }
+
+        .payment-item .icon-box i {
+            font-size: 16px;
+        }
+
+        .payment-item .icon-box.green i {
+            color: var(--success-green);
+        }
+
+        .payment-item .icon-box.gray i {
+            color: var(--text-secondary);
+        }
+
+        .payment-item .name {
+            font-size: 12px;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .payment-item .radio {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--border-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .payment-item.active .radio {
+            border-color: var(--success-green);
+        }
+
+        .payment-item .radio .inner {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--success-green);
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .payment-item.active .radio .inner {
+            transform: scale(1);
+        }
+
+        /* ============================================
+           SUMMARY
+           ============================================ */
+        .summary-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .summary-card .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .row .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .summary-card .row .value {
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+
+        .summary-card .row .value.discount {
+            color: var(--danger);
+        }
+
+        .summary-card .divider {
+            height: 0.5px;
+            background: var(--border);
+            margin: 10px 0;
+        }
+
+        .summary-card .total {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary-card .total .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .summary-card .total .value {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--success-green);
+        }
+
+        /* ============================================
+           BOTTOM BAR
+           ============================================ */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 0.5px solid var(--border);
+            padding: 14px 20px 18px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-pay {
+            background: var(--orange);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 14px;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 167, 38, 0.30);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-pay::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-pay:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-pay:hover {
+            background: #FB8C00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 167, 38, 0.40);
+        }
+
+        .btn-pay:active {
+            transform: translateY(0);
+        }
+
+        .btn-pay.processing {
+            background: var(--success-green);
+            box-shadow: 0 4px 16px rgba(27, 94, 32, 0.30);
+        }
+
+        /* ============================================
+           TOAST NOTIFICATION
+           ============================================ */
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 400px) {
+            .app-container {
+                border-radius: 24px;
+            }
+
+            .content {
+                padding: 12px 16px 120px;
+            }
+
+            .address-card,
+            .schedule-card {
+                padding: 12px;
+            }
+
+            .payment-item {
+                padding: 10px 12px;
+            }
+
+            .bottom-bar {
+                padding: 12px 16px 16px;
+            }
+
+            .btn-pay {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .content {
+                padding: 10px 12px 100px;
+            }
+
+            .address-card .info .label {
+                font-size: 11px;
+            }
+
+            .address-card .info .address {
+                font-size: 10px;
+            }
+
+            .schedule-card .info .date {
+                font-size: 11px;
+            }
+
+            .schedule-card .info .time {
+                font-size: 10px;
+            }
+
+            .payment-item .name {
+                font-size: 11px;
+            }
+
+            .summary-card .total .value {
+                font-size: 14px;
+            }
+
+            .btn-pay {
+                font-size: 12px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    APP CONTAINER
+    ============================================ -->
+    <div class="app-container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">
+                <i class="ti ti-arrow-left" aria-hidden="true"></i>
+            </button>
+            <p class="title">Checkout</p>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div class="content">
+
+            <!-- ===== ADDRESS ===== -->
+            <p class="section-title">Alamat pengiriman</p>
+            <div class="address-card" onclick="changeAddress()">
+                <div class="icon-box">
+                    <i class="ti ti-map-pin" aria-hidden="true"></i>
+                </div>
+                <div class="info">
+                    <p class="label">Rumah - Jl. Kemang Raya No. 12</p>
+                    <p class="address">Kebayoran Baru, Jakarta Selatan, 12730</p>
+                </div>
+                <button class="change-btn">Ubah</button>
+            </div>
+
+            <!-- ===== SCHEDULE ===== -->
+            <p class="section-title">Jadwal pengiriman</p>
+            <div class="schedule-card" onclick="changeSchedule()">
+                <div class="icon-box">
+                    <i class="ti ti-calendar" aria-hidden="true"></i>
+                </div>
+                <div class="info">
+                    <p class="date">Besok, 27 Juni 2026</p>
+                    <p class="time">11:00 - 13:00 WIB</p>
+                </div>
+                <i class="ti ti-chevron-right chevron" aria-hidden="true"></i>
+            </div>
+
+            <!-- ===== PAYMENT METHOD ===== -->
+            <p class="section-title">Metode pembayaran</p>
+            <div class="payment-methods" id="paymentMethods">
+
+                <div class="payment-item active" data-method="qris" onclick="selectPayment(this)">
+                    <div class="icon-box green">
+                        <i class="ti ti-qrcode" aria-hidden="true"></i>
+                    </div>
+                    <span class="name">QRIS</span>
+                    <div class="radio">
+                        <div class="inner"></div>
+                    </div>
+                </div>
+
+                <div class="payment-item" data-method="ewallet" onclick="selectPayment(this)">
+                    <div class="icon-box gray">
+                        <i class="ti ti-wallet" aria-hidden="true"></i>
+                    </div>
+                    <span class="name">E-Wallet</span>
+                    <div class="radio">
+                        <div class="inner"></div>
+                    </div>
+                </div>
+
+                <div class="payment-item" data-method="transfer" onclick="selectPayment(this)">
+                    <div class="icon-box gray">
+                        <i class="ti ti-building-bank" aria-hidden="true"></i>
+                    </div>
+                    <span class="name">Transfer bank</span>
+                    <div class="radio">
+                        <div class="inner"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== SUMMARY ===== -->
+            <p class="section-title">Ringkasan pesanan</p>
+            <div class="summary-card">
+                <div class="row">
+                    <span class="label">3 item</span>
+                    <span class="value" id="subtotal">Rp 344.000</span>
+                </div>
+                <div class="row">
+                    <span class="label">Diskon voucher</span>
+                    <span class="value discount" id="discount">-Rp 20.000</span>
+                </div>
+                <div class="row">
+                    <span class="label">Biaya pengiriman</span>
+                    <span class="value" id="shipping">Rp 10.000</span>
+                </div>
+                <div class="divider"></div>
+                <div class="total">
+                    <span class="label">Total bayar</span>
+                    <span class="value" id="total">Rp 334.000</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== BOTTOM BAR ===== -->
+        <div class="bottom-bar">
+            <button class="btn-pay" id="payBtn" onclick="processPayment()">
+                Bayar <span id="payTotal">Rp 334.000</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== DATA =====
+            const orderData = {
+                subtotal: 344000,
+                discount: 20000,
+                shipping: 10000,
+                total: 334000,
+                paymentMethod: 'qris',
+                address: 'Rumah - Jl. Kemang Raya No. 12',
+                schedule: 'Besok, 27 Juni 2026'
+            };
+
+            // ===== DOM REFERENCES =====
+            const payBtn = document.getElementById('payBtn');
+            const payTotal = document.getElementById('payTotal');
+
+            // ===== SELECT PAYMENT =====
+            window.selectPayment = function(element) {
+                const allItems = document.querySelectorAll('.payment-item');
+                allItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                element.classList.add('active');
+
+                const method = element.dataset.method;
+                orderData.paymentMethod = method;
+
+                const methodNames = {
+                    qris: 'QRIS',
+                    ewallet: 'E-Wallet',
+                    transfer: 'Transfer bank'
+                };
+
+                showToast(`💳 Metode: ${methodNames[method]}`);
+            };
+
+            // ===== CHANGE ADDRESS =====
+            window.changeAddress = function() {
+                const addresses = [
+                    'Rumah - Jl. Kemang Raya No. 12',
+                    'Kantor - Jl. Sudirman No. 45',
+                    'Kost - Jl. Cipete Raya No. 8'
+                ];
+
+                const current = orderData.address;
+                let nextIndex = (addresses.indexOf(current) + 1) % addresses.length;
+
+                if (nextIndex === -1 || nextIndex === 0) {
+                    nextIndex = 0;
+                }
+
+                orderData.address = addresses[nextIndex];
+
+                const addressCard = document.querySelector('.address-card');
+                const label = addressCard.querySelector('.label');
+                const addressText = addressCard.querySelector('.address');
+
+                const parts = addresses[nextIndex].split(' - ');
+                label.textContent = parts[0] + ' - ' + parts[1];
+                addressText.textContent = 'Kebayoran Baru, Jakarta Selatan, 12730';
+
+                showToast(`📍 Alamat diubah: ${addresses[nextIndex]}`);
+            };
+
+            // ===== CHANGE SCHEDULE =====
+            window.changeSchedule = function() {
+                const schedules = [
+                    { date: 'Besok, 27 Juni 2026', time: '11:00 - 13:00 WIB' },
+                    { date: 'Besok, 27 Juni 2026', time: '16:00 - 18:00 WIB' },
+                    { date: 'Lusa, 28 Juni 2026', time: '09:00 - 11:00 WIB' }
+                ];
+
+                const current = orderData.schedule;
+                let currentIndex = schedules.findIndex(s => s.date + s.time === current);
+                let nextIndex = (currentIndex + 1) % schedules.length;
+
+                if (currentIndex === -1) nextIndex = 0;
+
+                orderData.schedule = schedules[nextIndex].date + schedules[nextIndex].time;
+
+                const scheduleCard = document.querySelector('.schedule-card');
+                const dateEl = scheduleCard.querySelector('.date');
+                const timeEl = scheduleCard.querySelector('.time');
+
+                dateEl.textContent = schedules[nextIndex].date;
+                timeEl.textContent = schedules[nextIndex].time;
+
+                showToast(`📅 Jadwal diubah: ${schedules[nextIndex].date} ${schedules[nextIndex].time}`);
+            };
+
+            // ===== PROCESS PAYMENT - Redirect to Order History =====
+            window.processPayment = function() {
+                const btn = document.getElementById('payBtn');
+                const originalText = btn.textContent;
+
+                btn.disabled = true;
+                btn.textContent = '⏳ Memproses...';
+                btn.classList.add('processing');
+
+                setTimeout(() => {
+                    const methodNames = {
+                        qris: 'QRIS',
+                        ewallet: 'E-Wallet',
+                        transfer: 'Transfer bank'
+                    };
+
+                    const method = methodNames[orderData.paymentMethod] || 'QRIS';
+
+                    showToast(`✅ Pembayaran berhasil! Metode: ${method}`);
+
+                    btn.textContent = '✓ Pesanan Berhasil!';
+                    btn.classList.add('processing');
+
+                    // Redirect to Order History after payment success
+                    setTimeout(() => {
+                        window.location.href = 'healthymeal_riwayat_pesanan_organic.html';
+                    }, 1500);
+
+                }, 2000);
+            };
+
+            // ===== GO BACK - Redirect to Cart =====
+            window.goBack = function() {
+                showToast('Kembali ke keranjang');
+                window.location.href = 'healthymeal_keranjang_organic.html';
+            };
+
+            // ===== TOAST NOTIFICATION =====
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }, 2500);
+            }
+
+            // ===== FORMAT PRICE =====
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            // ===== KEYBOARD SUPPORT =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!document.getElementById('payBtn').disabled) {
+                        processPayment();
+                    }
+                } else if (e.key === 'Escape') {
+                    goBack();
+                }
+            });
+
+            // ===== UPDATE TOTAL =====
+            function updateTotal() {
+                payTotal.textContent = `Rp ${formatPrice(orderData.total)}`;
+            }
+
+            // ===== INIT =====
+            updateTotal();
+
+            console.log('🟢 HealthyMeal Checkout siap digunakan!');
+            console.log('💡 Keyboard shortcuts:');
+            console.log('   Enter   → Proses pembayaran');
+            console.log('   Escape  → Kembali ke Keranjang');
+            console.log(`💳 Metode pembayaran: ${orderData.paymentMethod}`);
+
+        })();
+    </script>
+
+</body>
+</html>

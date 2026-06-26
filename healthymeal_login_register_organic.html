@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Login</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <style>
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+            --border: #E5E7EB;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --background: #FAF8F2;
+            --success-green: #1B5E20;
+            --orange: #FFA726;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 375px;
+            height: 100vh;
+            max-height: 700px;
+            min-height: 560px;
+            background: var(--background);
+            border-radius: 32px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .auth-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .auth-slides-track {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .auth-slide {
+            width: 50%;
+            height: 100%;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .wave-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 0;
+        }
+
+        .auth-header {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .auth-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .auth-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 180px;
+            left: 24px;
+            right: 24px;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group .label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            background: #fff;
+            border: 0.5px solid var(--border);
+            border-radius: 12px;
+            padding: 11px 14px;
+            font-size: 13px;
+            color: var(--text-primary);
+            width: 100%;
+            font-family: var(--font-sans);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--success-green);
+            box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.1);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-input {
+            padding-right: 40px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+        }
+
+        .forgot-link {
+            font-size: 11px;
+            color: var(--success-green);
+            text-align: right;
+            cursor: pointer;
+            display: block;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            margin-bottom: 18px;
+        }
+
+        .btn-primary {
+            background: var(--success-green);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 13px;
+            border-radius: 14px;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(27, 94, 32, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #2E7D32;
+            transform: translateY(-2px);
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 13px;
+            border-radius: 14px;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 167, 38, 0.30);
+        }
+
+        .btn-orange:hover {
+            background: #FB8C00;
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .divider .line {
+            flex: 1;
+            height: 0.5px;
+            background: var(--border);
+        }
+
+        .divider .text {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .btn-social {
+            flex: 1;
+            border: 0.5px solid var(--border);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-primary);
+            background: #fff;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+        }
+
+        .btn-social:hover {
+            background: #F9FAFB;
+            border-color: var(--text-muted);
+        }
+
+        .btn-social i {
+            font-size: 15px;
+        }
+
+        .switch-auth {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .switch-auth .link {
+            color: var(--success-green);
+            font-weight: 600;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 12px;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        @media (max-width: 400px) {
+            .auth-card {
+                border-radius: 24px;
+                max-height: 650px;
+                min-height: 520px;
+            }
+
+            .auth-header {
+                top: 35px;
+            }
+
+            .auth-logo {
+                width: 48px;
+                height: 48px;
+            }
+
+            .auth-title {
+                font-size: 15px;
+            }
+
+            .form-container {
+                top: 165px;
+                left: 20px;
+                right: 20px;
+            }
+
+            .form-input {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .btn-primary,
+            .btn-orange {
+                font-size: 12px;
+                padding: 12px;
+            }
+
+            .btn-social {
+                font-size: 11px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .auth-card {
+                max-height: 580px;
+                min-height: 480px;
+            }
+
+            .auth-header {
+                top: 30px;
+            }
+
+            .auth-logo {
+                width: 42px;
+                height: 42px;
+            }
+
+            .auth-title {
+                font-size: 14px;
+            }
+
+            .form-container {
+                top: 145px;
+                left: 16px;
+                right: 16px;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .form-group .label {
+                font-size: 10px;
+            }
+
+            .form-input {
+                padding: 9px 12px;
+                font-size: 11px;
+            }
+
+            .btn-primary,
+            .btn-orange {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .switch-auth {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-height: 650px) {
+            .auth-header {
+                top: 25px;
+            }
+
+            .auth-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .auth-title {
+                font-size: 14px;
+            }
+
+            .form-container {
+                top: 130px;
+            }
+
+            .form-group {
+                margin-bottom: 8px;
+            }
+
+            .forgot-link {
+                margin-bottom: 12px;
+            }
+
+            .divider {
+                margin: 10px 0;
+            }
+
+            .social-buttons {
+                margin-bottom: 10px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .auth-slide.active .auth-header {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .auth-slide.active .form-container {
+            animation: fadeInUp 0.6s ease 0.1s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="auth-slides">
+            <div class="auth-slides-track" id="authTrack">
+
+                <!-- ===== LOGIN ===== -->
+                <div class="auth-slide active" id="loginSlide">
+                    <svg class="wave-bg" viewBox="0 0 280 230" preserveAspectRatio="none">
+                        <path d="M0,0 L280,0 L280,140 C230,165 200,120 150,140 C100,160 70,190 20,170 C10,166 4,162 0,160 Z" fill="#1B5E20"/>
+                        <path d="M0,0 L280,0 L280,100 C240,120 215,90 170,105 C125,120 100,140 50,125 C30,119 14,112 0,105 Z" fill="#4CAF50" opacity="0.85"/>
+                    </svg>
+
+                    <div class="auth-header">
+                        <div class="auth-logo">
+                            <svg width="30" height="30" viewBox="0 0 48 48">
+                                <path d="M8 22 C8 34 16 40 24 40 C32 40 40 34 40 22 Z" fill="#1B5E20"/>
+                                <ellipse cx="24" cy="22" rx="16" ry="4" fill="#2E7D32"/>
+                            </svg>
+                        </div>
+                        <p class="auth-title">Selamat datang kembali</p>
+                    </div>
+
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label class="label">Email</label>
+                            <input type="email" class="form-input" placeholder="nama@email.com" id="loginEmail" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-input" placeholder="Masukkan password" id="loginPassword" />
+                                <button class="password-toggle" type="button" onclick="togglePassword('loginPassword', this)">
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button class="forgot-link" onclick="forgotPassword()">Lupa password?</button>
+
+                        <button class="btn-primary" onclick="handleLogin()">Masuk</button>
+
+                        <div class="divider">
+                            <div class="line"></div>
+                            <span class="text">atau lanjutkan dengan</span>
+                            <div class="line"></div>
+                        </div>
+
+                        <div class="social-buttons">
+                            <button class="btn-social" onclick="socialLogin('Google')">
+                                <i class="ti ti-brand-google"></i> Google
+                            </button>
+                            <button class="btn-social" onclick="socialLogin('Apple')">
+                                <i class="ti ti-brand-apple"></i> Apple
+                            </button>
+                        </div>
+
+                        <p class="switch-auth">
+                            Belum punya akun?
+                            <button class="link" onclick="switchToRegister()">Daftar</button>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ===== REGISTER ===== -->
+                <div class="auth-slide" id="registerSlide">
+                    <svg class="wave-bg" viewBox="0 0 280 190" preserveAspectRatio="none">
+                        <path d="M0,0 L280,0 L280,110 C230,135 200,95 150,112 C100,130 70,155 20,138 C10,134 4,130 0,128 Z" fill="#1B5E20"/>
+                        <path d="M0,0 L280,0 L280,80 C240,98 215,72 170,85 C125,98 100,115 50,102 C30,97 14,91 0,86 Z" fill="#4CAF50" opacity="0.85"/>
+                    </svg>
+
+                    <div class="auth-header">
+                        <div class="auth-logo">
+                            <svg width="30" height="30" viewBox="0 0 48 48">
+                                <path d="M8 22 C8 34 16 40 24 40 C32 40 40 34 40 22 Z" fill="#1B5E20"/>
+                                <ellipse cx="24" cy="22" rx="16" ry="4" fill="#2E7D32"/>
+                            </svg>
+                        </div>
+                        <p class="auth-title">Buat akun baru</p>
+                    </div>
+
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label class="label">Nama lengkap</label>
+                            <input type="text" class="form-input" placeholder="Nama kamu" id="registerName" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Email</label>
+                            <input type="email" class="form-input" placeholder="nama@email.com" id="registerEmail" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-input" placeholder="Buat password" id="registerPassword" />
+                                <button class="password-toggle" type="button" onclick="togglePassword('registerPassword', this)">
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Konfirmasi password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-input" placeholder="Konfirmasi password" id="registerConfirm" />
+                                <button class="password-toggle" type="button" onclick="togglePassword('registerConfirm', this)">
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button class="btn-orange" onclick="handleRegister()">Daftar</button>
+
+                        <div class="social-buttons">
+                            <button class="btn-social" onclick="socialLogin('Google')">
+                                <i class="ti ti-brand-google"></i> Google
+                            </button>
+                            <button class="btn-social" onclick="socialLogin('Apple')">
+                                <i class="ti ti-brand-apple"></i> Apple
+                            </button>
+                        </div>
+
+                        <p class="switch-auth">
+                            Sudah punya akun?
+                            <button class="link" onclick="switchToLogin()">Masuk</button>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const authTrack = document.getElementById('authTrack');
+            let isLogin = true;
+
+            // ===== SWITCH =====
+            window.switchToRegister = function() {
+                authTrack.style.transform = 'translateX(-50%)';
+                isLogin = false;
+                document.getElementById('registerSlide').classList.add('active');
+                document.getElementById('loginSlide').classList.remove('active');
+            };
+
+            window.switchToLogin = function() {
+                authTrack.style.transform = 'translateX(0)';
+                isLogin = true;
+                document.getElementById('loginSlide').classList.add('active');
+                document.getElementById('registerSlide').classList.remove('active');
+            };
+
+            // ===== TOGGLE PASSWORD =====
+            window.togglePassword = function(inputId, button) {
+                const input = document.getElementById(inputId);
+                const icon = button.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'ti ti-eye-off';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'ti ti-eye';
+                }
+            };
+
+            // ===== LOGIN =====
+            window.handleLogin = function() {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                if (!email || !password) {
+                    showToast('⚠️ Mohon isi email dan password');
+                    return;
+                }
+
+                if (!email.includes('@')) {
+                    showToast('⚠️ Email tidak valid');
+                    return;
+                }
+
+                showToast('✅ Login berhasil!');
+                // Redirect ke home
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== REGISTER =====
+            window.handleRegister = function() {
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirm = document.getElementById('registerConfirm').value;
+
+                if (!name || !email || !password || !confirm) {
+                    showToast('⚠️ Mohon isi semua field');
+                    return;
+                }
+
+                if (!email.includes('@')) {
+                    showToast('⚠️ Email tidak valid');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showToast('⚠️ Password minimal 6 karakter');
+                    return;
+                }
+
+                if (password !== confirm) {
+                    showToast('⚠️ Password dan konfirmasi tidak cocok');
+                    return;
+                }
+
+                showToast('✅ Pendaftaran berhasil!');
+                // Redirect ke home
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== FORGOT =====
+            window.forgotPassword = function() {
+                showToast('📧 Link reset password akan dikirim ke email Anda');
+            };
+
+            // ===== SOCIAL =====
+            window.socialLogin = function(provider) {
+                showToast(`🔑 Login dengan ${provider}`);
+            };
+
+            // ===== TOAST =====
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) existingToast.remove();
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) toast.remove();
+                    }, 300);
+                }, 2500);
+            }
+
+            // ===== KEYBOARD =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    if (isLogin) {
+                        handleLogin();
+                    } else {
+                        handleRegister();
+                    }
+                }
+                if (e.key === 'Escape' && !isLogin) {
+                    switchToLogin();
+                }
+            });
+
+            console.log('🟢 HealthyMeal Login siap digunakan!');
+
+        })();
+    </script>
+
+</body>
+</html>

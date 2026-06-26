@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Detail Menu</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <style>
+        /* ============================================
+           ROOT VARIABLES
+           ============================================ */
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+
+            --border: #E5E7EB;
+            --border-strong: #D1D5DB;
+
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+
+            --background: #FAF8F2;
+            --success-green: #1B5E20;
+            --light-green: #4CAF50;
+            --light-green-bg: #E8F5E9;
+            --orange: #FFA726;
+            --star-color: #FAC775;
+            --danger: #D85A30;
+        }
+
+        /* ============================================
+           RESET & GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ============================================
+           APP CONTAINER
+           ============================================ */
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            background: var(--background);
+            border-radius: 36px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            font-family: var(--font-sans);
+            position: relative;
+            min-height: 700px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding-bottom: 80px;
+        }
+
+        /* ============================================
+           HEADER IMAGE
+           ============================================ */
+        .header-image {
+            height: 220px;
+            background: #DCEDC8;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .header-image svg.bg-wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .header-image .food-illustration {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .header-image:hover .food-illustration {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* ============================================
+           ACTION BUTTONS (Back & Favorite)
+           ============================================ */
+        .action-btn {
+            position: absolute;
+            top: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+            z-index: 2;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn i {
+            font-size: 18px;
+            color: var(--success-green);
+        }
+
+        .action-btn.favorite i {
+            color: var(--danger);
+        }
+
+        .action-btn.back {
+            left: 16px;
+        }
+
+        .action-btn.favorite {
+            right: 16px;
+        }
+
+        /* ============================================
+           CONTENT
+           ============================================ */
+        .content {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* ============================================
+           TITLE & PRICE
+           ============================================ */
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .title-row .name {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            max-width: 230px;
+            line-height: 1.3;
+        }
+
+        .title-row .price {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--orange);
+        }
+
+        /* ============================================
+           RATING
+           ============================================ */
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .rating-row .star {
+            font-size: 15px;
+            color: var(--star-color);
+        }
+
+        .rating-row .score {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .rating-row .reviews {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .rating-row .dot {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .rating-row .tag {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================
+           DESCRIPTION
+           ============================================ */
+        .description {
+            margin: 0 0 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           NUTRITION
+           ============================================ */
+        .section-title {
+            margin: 0 0 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .nutrition-item {
+            background: var(--light-green-bg);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nutrition-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(27, 94, 32, 0.10);
+        }
+
+        .nutrition-item .value {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--success-green);
+        }
+
+        .nutrition-item .label {
+            margin: 1px 0 0;
+            font-size: 10px;
+            color: #2E7D32;
+        }
+
+        /* ============================================
+           QUANTITY
+           ============================================ */
+        .qty-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .qty-section .label {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 0.5px solid var(--border-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-sans);
+        }
+
+        .qty-btn:hover {
+            background: #F3F4F6;
+            border-color: var(--text-muted);
+        }
+
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+
+        .qty-btn.primary {
+            background: var(--success-green);
+            border-color: var(--success-green);
+        }
+
+        .qty-btn.primary:hover {
+            background: #2E7D32;
+            border-color: #2E7D32;
+        }
+
+        .qty-btn i {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .qty-btn.primary i {
+            color: #fff;
+        }
+
+        .qty-value {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            min-width: 24px;
+            text-align: center;
+        }
+
+        /* ============================================
+           BOTTOM BAR
+           ============================================ */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 0.5px solid var(--border);
+            padding: 14px 20px 18px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .bottom-bar .total {
+            flex-shrink: 0;
+        }
+
+        .bottom-bar .total .label {
+            margin: 0;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .bottom-bar .total .value {
+            margin: 1px 0 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            background: var(--orange);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 13px;
+            border-radius: 14px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 167, 38, 0.30);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-add-cart::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-add-cart:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-add-cart:hover {
+            background: #FB8C00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 167, 38, 0.40);
+        }
+
+        .btn-add-cart:active {
+            transform: translateY(0);
+        }
+
+        .btn-add-cart.added {
+            background: var(--success-green);
+            box-shadow: 0 4px 16px rgba(27, 94, 32, 0.30);
+        }
+
+        .btn-add-cart.added:hover {
+            background: #2E7D32;
+            box-shadow: 0 6px 24px rgba(27, 94, 32, 0.40);
+        }
+
+        /* ============================================
+           TOAST NOTIFICATION
+           ============================================ */
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 400px) {
+            .app-container {
+                border-radius: 24px;
+            }
+
+            .header-image {
+                height: 180px;
+            }
+
+            .header-image .food-illustration {
+                width: 130px;
+                height: 105px;
+            }
+
+            .action-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .action-btn i {
+                font-size: 16px;
+            }
+
+            .content {
+                padding: 16px;
+                padding-bottom: 80px;
+            }
+
+            .title-row .name {
+                font-size: 16px;
+                max-width: 180px;
+            }
+
+            .title-row .price {
+                font-size: 15px;
+            }
+
+            .nutrition-grid {
+                gap: 8px;
+            }
+
+            .nutrition-item {
+                padding: 10px;
+            }
+
+            .nutrition-item .value {
+                font-size: 13px;
+            }
+
+            .bottom-bar {
+                padding: 12px 16px 16px;
+            }
+
+            .bottom-bar .total .value {
+                font-size: 14px;
+            }
+
+            .btn-add-cart {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header-image {
+                height: 160px;
+            }
+
+            .header-image .food-illustration {
+                width: 110px;
+                height: 90px;
+            }
+
+            .title-row .name {
+                font-size: 15px;
+                max-width: 150px;
+            }
+
+            .title-row .price {
+                font-size: 14px;
+            }
+
+            .rating-row .score {
+                font-size: 12px;
+            }
+
+            .rating-row .reviews,
+            .rating-row .tag {
+                font-size: 11px;
+            }
+
+            .nutrition-item .value {
+                font-size: 12px;
+            }
+
+            .nutrition-item .label {
+                font-size: 9px;
+            }
+
+            .qty-btn {
+                width: 30px;
+                height: 30px;
+            }
+
+            .qty-btn i {
+                font-size: 14px;
+            }
+
+            .qty-value {
+                font-size: 13px;
+                min-width: 20px;
+            }
+
+            .bottom-bar .total .value {
+                font-size: 13px;
+            }
+
+            .btn-add-cart {
+                font-size: 12px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    APP CONTAINER
+    ============================================ -->
+    <div class="app-container">
+
+        <!-- ===== HEADER IMAGE ===== -->
+        <div class="header-image">
+            <svg class="bg-wave" viewBox="0 0 375 220" preserveAspectRatio="none">
+                <path d="M0,220 L0,150 C60,130 100,170 150,160 C210,148 230,110 290,125 C330,135 355,150 375,158 L375,220 Z" fill="#A5D6A7" opacity="0.6"/>
+            </svg>
+
+            <svg class="food-illustration" width="160" height="130" viewBox="0 0 160 130">
+                <ellipse cx="80" cy="70" rx="68" ry="46" fill="#fff"/>
+                <circle cx="55" cy="55" r="16" fill="#8D6E63"/>
+                <circle cx="55" cy="55" r="11" fill="#A1887F"/>
+                <circle cx="95" cy="50" r="13" fill="#EF5350"/>
+                <circle cx="115" cy="65" r="11" fill="#66BB6A"/>
+                <circle cx="60" cy="85" r="12" fill="#FFA726"/>
+                <circle cx="90" cy="88" r="10" fill="#9CCC65"/>
+                <circle cx="110" cy="40" r="9" fill="#43A047"/>
+            </svg>
+
+            <!-- Back Button - Link ke Home -->
+            <button class="action-btn back" onclick="goBack()">
+                <i class="ti ti-arrow-left" aria-hidden="true"></i>
+            </button>
+
+            <!-- Favorite Button -->
+            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                <i class="ti ti-heart" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div class="content">
+
+            <!-- ===== TITLE & PRICE ===== -->
+            <div class="title-row">
+                <p class="name">Salad ayam panggang quinoa</p>
+                <p class="price">Rp 35.000</p>
+            </div>
+
+            <!-- ===== RATING ===== -->
+            <div class="rating-row">
+                <i class="ti ti-star star" aria-hidden="true"></i>
+                <span class="score">4.8</span>
+                <span class="reviews">(214 ulasan)</span>
+                <span class="dot">·</span>
+                <span class="tag">Diet, high protein</span>
+            </div>
+
+            <!-- ===== DESCRIPTION ===== -->
+            <p class="description">
+                Dada ayam panggang dengan campuran quinoa, sayuran segar, dan saus lemon yogurt rendah kalori. 
+                Cocok untuk program diet dan menjaga massa otot.
+            </p>
+
+            <!-- ===== NUTRITION ===== -->
+            <p class="section-title">Informasi nutrisi</p>
+            <div class="nutrition-grid">
+                <div class="nutrition-item" onclick="showNutritionDetail('Kalori', '320 kal')">
+                    <p class="value">320 kal</p>
+                    <p class="label">Kalori</p>
+                </div>
+                <div class="nutrition-item" onclick="showNutritionDetail('Protein', '28 g')">
+                    <p class="value">28 g</p>
+                    <p class="label">Protein</p>
+                </div>
+                <div class="nutrition-item" onclick="showNutritionDetail('Karbohidrat', '24 g')">
+                    <p class="value">24 g</p>
+                    <p class="label">Karbohidrat</p>
+                </div>
+                <div class="nutrition-item" onclick="showNutritionDetail('Lemak', '12 g')">
+                    <p class="value">12 g</p>
+                    <p class="label">Lemak</p>
+                </div>
+            </div>
+
+            <!-- ===== QUANTITY ===== -->
+            <div class="qty-section">
+                <p class="label">Jumlah porsi</p>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="updateQty(-1)">
+                        <i class="ti ti-minus" aria-hidden="true"></i>
+                    </button>
+                    <span class="qty-value" id="qtyValue">1</span>
+                    <button class="qty-btn primary" onclick="updateQty(1)">
+                        <i class="ti ti-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== BOTTOM BAR ===== -->
+        <div class="bottom-bar">
+            <div class="total">
+                <p class="label">Total</p>
+                <p class="value" id="totalPrice">Rp 35.000</p>
+            </div>
+            <button class="btn-add-cart" id="addToCartBtn" onclick="addToCart()">
+                Tambah ke keranjang
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== DATA =====
+            const menuData = {
+                name: 'Salad ayam panggang quinoa',
+                price: 35000,
+                qty: 1
+            };
+
+            let isFavorite = false;
+
+            // ===== DOM REFERENCES =====
+            const qtyValue = document.getElementById('qtyValue');
+            const totalPrice = document.getElementById('totalPrice');
+            const addToCartBtn = document.getElementById('addToCartBtn');
+
+            // ===== UPDATE QUANTITY =====
+            window.updateQty = function(delta) {
+                const newQty = menuData.qty + delta;
+
+                if (newQty < 1) {
+                    showToast('Minimal 1 porsi');
+                    return;
+                }
+
+                if (newQty > 99) {
+                    showToast('Maksimal 99 porsi');
+                    return;
+                }
+
+                menuData.qty = newQty;
+                qtyValue.textContent = newQty;
+                updateTotal();
+            };
+
+            // ===== UPDATE TOTAL =====
+            function updateTotal() {
+                const total = menuData.price * menuData.qty;
+                totalPrice.textContent = `Rp ${formatPrice(total)}`;
+            }
+
+            // ===== FORMAT PRICE =====
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            // ===== ADD TO CART - Redirect to Cart Page =====
+            window.addToCart = function() {
+                const total = menuData.price * menuData.qty;
+
+                // Animate button
+                addToCartBtn.textContent = '✓ Ditambahkan!';
+                addToCartBtn.classList.add('added');
+
+                showToast(`🛒 ${menuData.qty}x ${menuData.name} ditambahkan ke keranjang (Rp ${formatPrice(total)})`);
+
+                // Redirect to cart page after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = 'healthymeal_keranjang_organic.html';
+                }, 1500);
+            };
+
+            // ===== TOGGLE FAVORITE =====
+            window.toggleFavorite = function(btn) {
+                isFavorite = !isFavorite;
+                const icon = btn.querySelector('i');
+
+                if (isFavorite) {
+                    icon.className = 'ti ti-heart-filled';
+                    icon.style.color = '#D85A30';
+                    showToast('❤️ Ditambahkan ke favorit');
+                } else {
+                    icon.className = 'ti ti-heart';
+                    icon.style.color = '#D85A30';
+                    showToast('💔 Dihapus dari favorit');
+                }
+            };
+
+            // ===== SHOW NUTRITION DETAIL =====
+            window.showNutritionDetail = function(name, value) {
+                showToast(`📊 ${name}: ${value}`);
+            };
+
+            // ===== GO BACK - Redirect to Home =====
+            window.goBack = function() {
+                showToast('Kembali ke beranda');
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== TOAST NOTIFICATION =====
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }, 2500);
+            }
+
+            // ===== KEYBOARD SUPPORT =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowUp' || e.key === '=') {
+                    e.preventDefault();
+                    updateQty(1);
+                } else if (e.key === 'ArrowDown' || e.key === '-') {
+                    e.preventDefault();
+                    updateQty(-1);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addToCart();
+                } else if (e.key === 'Escape') {
+                    goBack();
+                } else if (e.key === 'f' || e.key === 'F') {
+                    const favBtn = document.querySelector('.favorite');
+                    if (favBtn) toggleFavorite(favBtn);
+                }
+            });
+
+            // ===== INIT =====
+            updateTotal();
+
+            console.log('🟢 HealthyMeal Detail Menu siap digunakan!');
+            console.log('💡 Keyboard shortcuts:');
+            console.log('   ↑ / =  → Tambah porsi');
+            console.log('   ↓ / -  → Kurangi porsi');
+            console.log('   Enter   → Tambah ke keranjang');
+            console.log('   F       → Favorite toggle');
+            console.log('   Escape  → Kembali ke Home');
+
+        })();
+    </script>
+
+</body>
+</html>

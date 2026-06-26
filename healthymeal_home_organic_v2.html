@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Home</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <style>
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+            --border: #E5E7EB;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --background: #FAF8F2;
+            --success-green: #1B5E20;
+            --light-green-bg: #E8F5E9;
+            --orange: #FFA726;
+            --dark-orange: #993C1D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            background: var(--background);
+            border-radius: 36px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            font-family: var(--font-sans);
+            position: relative;
+            min-height: 700px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding-bottom: 80px;
+        }
+
+        .header-wave {
+            position: relative;
+            padding: 20px 20px 30px;
+        }
+
+        .header-wave svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .greeting .label {
+            font-size: 12px;
+            color: #C8E6C9;
+        }
+
+        .greeting .name {
+            font-size: 17px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .notification-btn i {
+            font-size: 17px;
+            color: var(--success-green);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--orange);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 14px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-bar i {
+            font-size: 17px;
+            color: var(--success-green);
+        }
+
+        .search-bar span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .content {
+            padding: 0 20px 20px;
+        }
+
+        .promo-banner {
+            background: var(--orange);
+            border-radius: 18px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 167, 38, 0.25);
+        }
+
+        .promo-banner:hover {
+            transform: translateY(-2px);
+        }
+
+        .promo-banner .promo-text .label {
+            font-size: 11px;
+            color: #4A1B0C;
+            font-weight: 500;
+        }
+
+        .promo-banner .promo-text .title {
+            font-size: 13px;
+            color: #4A1B0C;
+            font-weight: 500;
+        }
+
+        .promo-banner .btn-promo {
+            background: #fff;
+            color: var(--dark-orange);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: var(--light-green-bg);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(27, 94, 32, 0.10);
+        }
+
+        .stat-card .value {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--success-green);
+        }
+
+        .stat-card .label {
+            font-size: 10px;
+            color: #2E7D32;
+        }
+
+        .section-title {
+            margin: 20px 0 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            flex-shrink: 0;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-sans);
+            background: #fff;
+            border: 0.5px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .category-btn.active {
+            background: var(--success-green);
+            color: #fff;
+            border-color: var(--success-green);
+        }
+
+        .menu-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .menu-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .menu-card {
+            flex-shrink: 0;
+            width: 150px;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+        }
+
+        .menu-card .image {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-card .image.green-light {
+            background: #DCEDC8;
+        }
+
+        .menu-card .image.green-dark {
+            background: #C8E6C9;
+        }
+
+        .menu-card .image.orange-light {
+            background: #FFF3E0;
+        }
+
+        .menu-card .info {
+            padding: 10px;
+        }
+
+        .menu-card .info .name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .menu-card .info .price {
+            font-size: 11px;
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        .package-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .package-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+        }
+
+        .package-card .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--light-green-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .package-card .info {
+            flex: 1;
+        }
+
+        .package-card .info .name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .package-card .info .desc {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .package-card .btn-order {
+            background: var(--orange);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+        }
+
+        .package-card .btn-order:hover {
+            background: #FB8C00;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #fff;
+            border-top: 0.5px solid var(--border);
+            padding: 10px 0 14px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            height: 68px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            padding: 0;
+            min-width: 48px;
+            height: 48px;
+        }
+
+        .nav-item i {
+            font-size: 19px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+            height: 24px;
+            width: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+            font-weight: 400;
+            height: 14px;
+            line-height: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-item.active i {
+            color: var(--success-green);
+        }
+
+        .nav-item.active span {
+            color: var(--success-green);
+            font-weight: 500;
+        }
+
+        .nav-item:hover i,
+        .nav-item:hover span {
+            color: var(--success-green);
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        @media (max-width: 400px) {
+            .app-container {
+                border-radius: 24px;
+            }
+
+            .content {
+                padding: 0 16px 16px;
+            }
+
+            .stat-card .value {
+                font-size: 13px;
+            }
+
+            .menu-card {
+                width: 130px;
+            }
+
+            .menu-card .image {
+                height: 75px;
+            }
+
+            .nav-item {
+                min-width: 40px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header-wave {
+                padding: 16px 16px 24px;
+            }
+
+            .greeting .name {
+                font-size: 15px;
+            }
+
+            .notification-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .stat-card {
+                padding: 10px 8px;
+            }
+
+            .stat-card .value {
+                font-size: 12px;
+            }
+
+            .menu-card {
+                width: 115px;
+            }
+
+            .menu-card .image {
+                height: 65px;
+            }
+
+            .nav-item {
+                min-width: 36px;
+            }
+            .nav-item i {
+                font-size: 17px;
+                height: 20px;
+                width: 20px;
+            }
+            .nav-item span {
+                font-size: 8px;
+                height: 12px;
+                line-height: 12px;
+            }
+            .bottom-nav {
+                height: 60px;
+                padding: 8px 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header-wave">
+            <svg viewBox="0 0 375 220" preserveAspectRatio="none">
+                <path d="M0,0 L375,0 L375,150 C320,180 280,130 220,150 C160,170 120,200 60,180 C30,170 12,160 0,155 Z" fill="#1B5E20"/>
+                <path d="M0,0 L375,0 L375,110 C330,135 295,100 240,113 C185,126 150,145 90,128 C55,118 25,105 0,98 Z" fill="#4CAF50" opacity="0.85"/>
+            </svg>
+
+            <div class="header-content">
+                <div class="header-top">
+                    <div class="greeting">
+                        <p class="label">Selamat pagi</p>
+                        <p class="name">Hai, Salsabila</p>
+                    </div>
+                    <button class="notification-btn" onclick="showToast('🔔 Tidak ada notifikasi baru')">
+                        <i class="ti ti-bell"></i>
+                        <div class="notification-badge"></div>
+                    </button>
+                </div>
+
+                <div class="search-bar" onclick="showToast('🔍 Buka halaman pencarian')">
+                    <i class="ti ti-search"></i>
+                    <span>Cari menu sehat favoritmu</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div class="content">
+
+            <!-- Promo -->
+            <div class="promo-banner" onclick="showToast('🎉 Diskon 20% paket diet!')">
+                <div class="promo-text">
+                    <p class="label">Promo minggu ini</p>
+                    <p class="title">Diskon 20% paket diet</p>
+                </div>
+                <button class="btn-promo">Lihat</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-container">
+                <div class="stat-card" onclick="showToast('📊 Detail Kalori Masuk')">
+                    <p class="value">1,240</p>
+                    <p class="label">kalori masuk</p>
+                </div>
+                <div class="stat-card" onclick="showToast('📊 Detail Target Harian')">
+                    <p class="value">2,000</p>
+                    <p class="label">target harian</p>
+                </div>
+                <div class="stat-card" onclick="showToast('📊 Detail Sisa Kalori')">
+                    <p class="value">760</p>
+                    <p class="label">sisa kalori</p>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <p class="section-title">Kategori</p>
+            <div class="categories-scroll">
+                <button class="category-btn active" onclick="filterCategory(this, 'Diet')">Diet</button>
+                <button class="category-btn" onclick="filterCategory(this, 'Bulking')">Bulking</button>
+                <button class="category-btn" onclick="filterCategory(this, 'Maintain')">Maintain</button>
+                <button class="category-btn" onclick="filterCategory(this, 'Vegetarian')">Vegetarian</button>
+                <button class="category-btn" onclick="filterCategory(this, 'Vegan')">Vegan</button>
+                <button class="category-btn" onclick="filterCategory(this, 'Keto')">Keto</button>
+            </div>
+
+            <!-- Favorite Menu -->
+            <p class="section-title">Menu favorit</p>
+            <div class="menu-scroll">
+                <div class="menu-card" onclick="window.location.href='healthymeal_detail_menu_organic_v2.html'">
+                    <div class="image green-light">
+                        <svg width="60" height="50" viewBox="0 0 60 50">
+                            <ellipse cx="30" cy="25" rx="26" ry="18" fill="#fff"/>
+                            <circle cx="22" cy="20" r="6" fill="#8D6E63"/>
+                            <circle cx="35" cy="18" r="5" fill="#EF5350"/>
+                            <circle cx="30" cy="28" r="5" fill="#66BB6A"/>
+                            <circle cx="40" cy="28" r="4" fill="#FFA726"/>
+                        </svg>
+                    </div>
+                    <div class="info">
+                        <p class="name">Salad ayam panggang</p>
+                        <p class="price">Rp 35.000</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="window.location.href='healthymeal_detail_menu_organic_v2.html'">
+                    <div class="image green-dark">
+                        <svg width="60" height="50" viewBox="0 0 60 50">
+                            <ellipse cx="30" cy="28" rx="24" ry="14" fill="#fff"/>
+                            <circle cx="24" cy="25" r="5" fill="#388E3C"/>
+                            <circle cx="34" cy="23" r="5" fill="#66BB6A"/>
+                            <circle cx="30" cy="32" r="4" fill="#FFA726"/>
+                        </svg>
+                    </div>
+                    <div class="info">
+                        <p class="name">Sup sayur protein</p>
+                        <p class="price">Rp 32.000</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="window.location.href='healthymeal_detail_menu_organic_v2.html'">
+                    <div class="image orange-light">
+                        <svg width="60" height="50" viewBox="0 0 60 50">
+                            <ellipse cx="30" cy="25" rx="24" ry="16" fill="#fff"/>
+                            <rect x="20" y="15" width="20" height="20" rx="3" fill="#D84315"/>
+                            <circle cx="28" cy="20" r="3" fill="#66BB6A"/>
+                            <circle cx="32" cy="26" r="3" fill="#FFB74D"/>
+                        </svg>
+                    </div>
+                    <div class="info">
+                        <p class="name">Bowl ayam teriyaki</p>
+                        <p class="price">Rp 38.000</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Package -->
+            <p class="section-title">Paket populer</p>
+            <div class="package-card" onclick="showToast('📦 Detail Paket diet 7 hari')">
+                <div class="icon-box">
+                    <svg width="30" height="30" viewBox="0 0 48 48">
+                        <path d="M8 22 C8 34 16 40 24 40 C32 40 40 34 40 22 Z" fill="#1B5E20"/>
+                        <ellipse cx="24" cy="22" rx="16" ry="4" fill="#2E7D32"/>
+                    </svg>
+                </div>
+                <div class="info">
+                    <p class="name">Paket diet 7 hari</p>
+                    <p class="desc">21 menu seimbang</p>
+                </div>
+                <button class="btn-order" onclick="event.stopPropagation(); showToast('🛒 Paket diet 7 hari ditambahkan ke keranjang')">Pesan</button>
+            </div>
+
+        </div>
+
+        <!-- ===== BOTTOM NAV ===== -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showToast('🏠 Home')">
+                <i class="ti ti-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='healthymeal_keranjang_organic.html'">
+                <i class="ti ti-shopping-cart"></i>
+                <span>Keranjang</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='healthymeal_tracking_organic.html'">
+                <i class="ti ti-chart-bar"></i>
+                <span>Tracking</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='healthymeal_riwayat_pesanan_organic.html'">
+                <i class="ti ti-receipt"></i>
+                <span>Pesanan</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='healthymeal_profil_organic.html'">
+                <i class="ti ti-user"></i>
+                <span>Profil</span>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // ===== FILTER CATEGORY =====
+        function filterCategory(btn, category) {
+            const allBtns = document.querySelectorAll('.category-btn');
+            allBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showToast(`🏷️ Filter: ${category}`);
+        }
+
+        // ===== TOAST =====
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+            });
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    if (toast.parentNode) toast.remove();
+                }, 300);
+            }, 2500);
+        }
+
+        // ===== GREETING =====
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const label = document.querySelector('.greeting .label');
+            let greeting = 'Selamat pagi';
+
+            if (hour >= 12 && hour < 15) greeting = 'Selamat siang';
+            else if (hour >= 15 && hour < 19) greeting = 'Selamat sore';
+            else if (hour >= 19) greeting = 'Selamat malam';
+
+            if (label) label.textContent = greeting;
+        }
+
+        updateGreeting();
+        console.log('🟢 HealthyMeal Home siap digunakan!');
+    </script>
+
+</body>
+</html>

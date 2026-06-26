@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Riwayat Pesanan</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <style>
+        /* ============================================
+           ROOT VARIABLES
+           ============================================ */
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+
+            /* Colors */
+            --border: #E5E7EB;
+            --border-strong: #D1D5DB;
+
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+
+            --background: #FAF8F2;
+
+            /* Status colors */
+            --success-bg: #E8F5E9;
+            --success-text: #1B5E20;
+            --warning-bg: #FAEEDA;
+            --warning-text: #854F0B;
+
+            /* Star color */
+            --star-color: #FAC775;
+        }
+
+        /* ============================================
+           RESET & GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ============================================
+           CARD STYLES
+           ============================================ */
+        .card-shadow {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card-shadow:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+        }
+
+        /* ============================================
+           APP CONTAINER
+           ============================================ */
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            background: var(--background);
+            border-radius: 36px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            font-family: var(--font-sans);
+            position: relative;
+            min-height: 700px;
+            padding-bottom: 80px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 20px 4px;
+        }
+
+        .header .back-btn {
+            font-size: 18px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .header .back-btn:hover {
+            color: var(--success-text);
+            transform: translateX(-3px);
+        }
+
+        .header .title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           FILTER BUTTONS
+           ============================================ */
+        .filter-btn {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-sans);
+        }
+
+        .filter-btn.active {
+            background: var(--success-text);
+            color: #fff;
+        }
+
+        .filter-btn:not(.active) {
+            background: #fff;
+            border: 0.5px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .filter-btn:not(.active):hover {
+            background: #F3F4F6;
+            border-color: var(--text-muted);
+        }
+
+        /* ============================================
+           STATUS BADGE
+           ============================================ */
+        .badge {
+            font-size: 10px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .badge.success {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .badge.warning {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        /* ============================================
+           ACTION BUTTONS
+           ============================================ */
+        .btn-outline {
+            flex: 1;
+            border: 0.5px solid var(--border-strong);
+            border-radius: 10px;
+            padding: 9px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            font-family: var(--font-sans);
+            font-weight: 500;
+        }
+
+        .btn-outline:hover {
+            background: #F9FAFB;
+            border-color: var(--text-muted);
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: var(--success-text);
+            border-radius: 10px;
+            padding: 9px;
+            text-align: center;
+            font-size: 11px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: var(--font-sans);
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: #2E7D32;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(27, 94, 32, 0.25);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           BOTTOM NAVIGATION - FIXED POSITION
+           ============================================ */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #fff;
+            border-top: 0.5px solid var(--border);
+            padding: 10px 0 14px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            height: 68px;
+            flex-shrink: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-decoration: none;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            padding: 0;
+            min-width: 48px;
+            height: 48px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 19px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 14px;
+            line-height: 14px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        .nav-item.active i {
+            color: var(--success-text);
+        }
+
+        .nav-item.active span {
+            color: var(--success-text);
+            font-weight: 500;
+        }
+
+        .nav-item:hover i,
+        .nav-item:hover span {
+            color: var(--success-text);
+        }
+
+        /* ============================================
+           TOAST NOTIFICATION
+           ============================================ */
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-text);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 400px) {
+            .app-container {
+                border-radius: 24px;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .nav-item {
+                min-width: 40px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-item {
+                min-width: 36px;
+            }
+            .nav-item i {
+                font-size: 17px;
+                height: 20px;
+                width: 20px;
+            }
+            .nav-item span {
+                font-size: 8px;
+                height: 12px;
+                line-height: 12px;
+            }
+            .bottom-nav {
+                height: 60px;
+                padding: 8px 0 10px;
+            }
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .order-item {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .order-item:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .order-item:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .order-item:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    APP CONTAINER
+    ============================================ -->
+    <div class="app-container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">
+                <i class="ti ti-arrow-left" aria-hidden="true"></i>
+            </button>
+            <p class="title">Riwayat pesanan</p>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div style="padding:16px 20px 0;">
+
+            <!-- ===== FILTER BUTTONS ===== -->
+            <div style="display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap;">
+                <button class="filter-btn active" onclick="filterOrders(this, 'semua')">Semua</button>
+                <button class="filter-btn" onclick="filterOrders(this, 'selesai')">Selesai</button>
+                <button class="filter-btn" onclick="filterOrders(this, 'diproses')">Diproses</button>
+            </div>
+
+            <!-- ===== ORDER LIST ===== -->
+            <div style="display:flex; flex-direction:column; gap:12px; padding-bottom:100px;">
+
+                <!-- ORDER 1 - Selesai -->
+                <div class="card-shadow order-item" data-status="selesai">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                        <div>
+                            <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">#HM2026-0341</p>
+                            <p style="margin:3px 0 0; font-size:11px; color:var(--text-secondary);">25 Juni 2026 - 1x Salad ayam, 2x Sup sayur</p>
+                        </div>
+                        <span class="badge success">Selesai</span>
+                    </div>
+
+                    <!-- Rating -->
+                    <div style="display:flex; align-items:center; gap:4px; margin-bottom:12px;">
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--border-strong);"></i>
+                        <span style="font-size:11px; color:var(--text-secondary); margin-left:4px;">Kamu memberi 4.0</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-outline" onclick="viewOrderDetail('#HM2026-0341')">Lihat detail</button>
+                        <button class="btn-primary" onclick="reorder('#HM2026-0341')">Pesan lagi</button>
+                    </div>
+                </div>
+
+                <!-- ORDER 2 - Diproses -->
+                <div class="card-shadow order-item" data-status="diproses">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                        <div>
+                            <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">#HM2026-0298</p>
+                            <p style="margin:3px 0 0; font-size:11px; color:var(--text-secondary);">18 Juni 2026 - Paket diet 7 hari</p>
+                        </div>
+                        <span class="badge warning">Diproses</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-outline" onclick="trackOrder('#HM2026-0298')">Lacak pesanan</button>
+                        <button class="btn-outline" style="color:var(--text-secondary);" onclick="cancelOrder('#HM2026-0298')">Batalkan</button>
+                    </div>
+                </div>
+
+                <!-- ORDER 3 - Selesai -->
+                <div class="card-shadow order-item" data-status="selesai">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                        <div>
+                            <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">#HM2026-0255</p>
+                            <p style="margin:3px 0 0; font-size:11px; color:var(--text-secondary);">10 Juni 2026 - 3x Bowl ayam teriyaki</p>
+                        </div>
+                        <span class="badge success">Selesai</span>
+                    </div>
+
+                    <!-- Rating -->
+                    <div style="display:flex; align-items:center; gap:4px; margin-bottom:12px;">
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <i class="ti ti-star" style="font-size:13px; color:var(--star-color);"></i>
+                        <span style="font-size:11px; color:var(--text-secondary); margin-left:4px;">Kamu memberi 5.0</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-outline" onclick="viewOrderDetail('#HM2026-0255')">Lihat detail</button>
+                        <button class="btn-primary" onclick="reorder('#HM2026-0255')">Pesan lagi</button>
+                    </div>
+                </div>
+
+                <!-- ORDER 4 - Diproses -->
+                <div class="card-shadow order-item" data-status="diproses">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                        <div>
+                            <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">#HM2026-0221</p>
+                            <p style="margin:3px 0 0; font-size:11px; color:var(--text-secondary);">5 Juni 2026 - 2x Smoothie bowl</p>
+                        </div>
+                        <span class="badge warning">Diproses</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-outline" onclick="trackOrder('#HM2026-0221')">Lacak pesanan</button>
+                        <button class="btn-outline" style="color:var(--text-secondary);" onclick="cancelOrder('#HM2026-0221')">Batalkan</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===== BOTTOM NAVIGATION ===== -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="navigateTo('home')">
+                <i class="ti ti-home" aria-hidden="true"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('menu')">
+                <i class="ti ti-menu-2" aria-hidden="true"></i>
+                <span>Menu</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('tracking')">
+                <i class="ti ti-chart-bar" aria-hidden="true"></i>
+                <span>Tracking</span>
+            </button>
+            <button class="nav-item active" onclick="navigateTo('orders')">
+                <i class="ti ti-receipt" aria-hidden="true"></i>
+                <span>Pesanan</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('profile')">
+                <i class="ti ti-user" aria-hidden="true"></i>
+                <span>Profil</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== NAVIGATION =====
+            window.navigateTo = function(page) {
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const targetMap = {
+                    'home': 0,
+                    'menu': 1,
+                    'tracking': 2,
+                    'orders': 3,
+                    'profile': 4
+                };
+
+                const index = targetMap[page];
+                if (index !== undefined && navItems[index]) {
+                    navItems[index].classList.add('active');
+                }
+
+                const pageMap = {
+                    'home': 'healthymeal_home_organic_v2.html',
+                    'menu': 'healthymeal_home_organic_v2.html',
+                    'tracking': 'healthymeal_tracking_organic.html',
+                    'orders': 'healthymeal_riwayat_pesanan_organic.html',
+                    'profile': 'healthymeal_profil_organic.html'
+                };
+
+                if (page !== 'orders') {
+                    showToast(`📱 Buka halaman ${page.charAt(0).toUpperCase() + page.slice(1)}`);
+                    setTimeout(() => {
+                        window.location.href = pageMap[page];
+                    }, 500);
+                }
+            };
+
+            // ===== GO BACK =====
+            window.goBack = function() {
+                showToast('Kembali ke beranda');
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== FILTER ORDERS =====
+            window.filterOrders = function(btn, filter) {
+                const allBtns = document.querySelectorAll('.filter-btn');
+                allBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const orderItems = document.querySelectorAll('.order-item');
+                orderItems.forEach(order => {
+                    const status = order.dataset.status;
+                    if (filter === 'semua') {
+                        order.style.display = 'block';
+                    } else if (filter === 'selesai' && status === 'selesai') {
+                        order.style.display = 'block';
+                    } else if (filter === 'diproses' && status === 'diproses') {
+                        order.style.display = 'block';
+                    } else {
+                        order.style.display = 'none';
+                    }
+                });
+
+                showToast(`🏷️ Filter: ${filter.charAt(0).toUpperCase() + filter.slice(1)}`);
+            };
+
+            // ===== ORDER ACTIONS =====
+            window.viewOrderDetail = function(orderId) {
+                showToast(`📋 Detail pesanan ${orderId}`);
+                // Could redirect to order detail page
+            };
+
+            window.reorder = function(orderId) {
+                showToast(`🛒 Memesan ulang ${orderId}`);
+                setTimeout(() => {
+                    window.location.href = 'healthymeal_keranjang_organic.html';
+                }, 800);
+            };
+
+            window.trackOrder = function(orderId) {
+                showToast(`📍 Melacak pesanan ${orderId}`);
+                setTimeout(() => {
+                    window.location.href = 'healthymeal_status_pesanan_organic.html';
+                }, 800);
+            };
+
+            window.cancelOrder = function(orderId) {
+                if (confirm(`Yakin ingin membatalkan pesanan ${orderId}?`)) {
+                    showToast(`❌ Pesanan ${orderId} dibatalkan`);
+                }
+            };
+
+            // ===== TOAST =====
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }, 2500);
+            }
+
+            // ===== KEYBOARD SUPPORT =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'h' || e.key === 'H') {
+                    navigateTo('home');
+                } else if (e.key === 'm' || e.key === 'M') {
+                    navigateTo('menu');
+                } else if (e.key === 't' || e.key === 'T') {
+                    navigateTo('tracking');
+                } else if (e.key === 'o' || e.key === 'O') {
+                    navigateTo('orders');
+                } else if (e.key === 'p' || e.key === 'P') {
+                    navigateTo('profile');
+                } else if (e.key === 'Escape') {
+                    goBack();
+                } else if (e.key === '1') {
+                    // Filter: Semua
+                    const btn = document.querySelector('.filter-btn');
+                    if (btn) filterOrders(btn, 'semua');
+                } else if (e.key === '2') {
+                    // Filter: Selesai
+                    const btns = document.querySelectorAll('.filter-btn');
+                    if (btns[1]) filterOrders(btns[1], 'selesai');
+                } else if (e.key === '3') {
+                    // Filter: Diproses
+                    const btns = document.querySelectorAll('.filter-btn');
+                    if (btns[2]) filterOrders(btns[2], 'diproses');
+                }
+            });
+
+            // ===== INIT =====
+            console.log('🟢 HealthyMeal Riwayat Pesanan siap digunakan!');
+            console.log('💡 Keyboard shortcuts:');
+            console.log('   H - Home | M - Menu | T - Tracking');
+            console.log('   O - Pesanan | P - Profil | Escape - Back');
+            console.log('   1 - Semua | 2 - Selesai | 3 - Diproses');
+
+        })();
+    </script>
+
+</body>
+</html>

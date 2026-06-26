@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Tracking Kalori</title>
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== ROOT VARIABLES ===== */
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+
+            --border: #E5E7EB;
+            --border-strong: #D1D5DB;
+
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+
+            --background: #FAF8F2;
+            --success-green: #1B5E20;
+            --light-green: #4CAF50;
+            --light-green-bg: #E8F5E9;
+            --orange: #FFA726;
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== CARD STYLES ===== */
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .10);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            background: var(--background);
+            border-radius: 36px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            font-family: var(--font-sans);
+            position: relative;
+            min-height: 780px;
+            padding-bottom: 80px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== HEADER ===== */
+        .header-wave {
+            position: relative;
+            padding: 20px 20px 50px;
+            margin-bottom: 10px;
+        }
+
+        .header-wave svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-content .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .header-content .back-btn:hover {
+            transform: translateX(-3px);
+        }
+
+        .header-content p {
+            color: #fff;
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* ===== PROGRESS CIRCLE ANIMATION ===== */
+        circle.progress {
+            transition: stroke-dasharray 0.8s ease;
+        }
+
+        /* ===== MACRO BARS ===== */
+        .macro-bar {
+            height: 6px;
+            border-radius: 4px;
+            background: #F3F4F6;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .macro-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        /* ===== FLOATING ACTION BUTTON ===== */
+        .fab {
+            position: fixed;
+            bottom: 85px;
+            right: 25px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--success-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 28px;
+            font-weight: 300;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 100;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 28px rgba(27, 94, 32, 0.3);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== BOTTOM NAVIGATION - STABIL ===== */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #fff;
+            border-top: 0.5px solid var(--border);
+            padding: 10px 0 14px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            height: 68px;
+            flex-shrink: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-decoration: none;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            padding: 0;
+            min-width: 48px;
+            height: 48px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 19px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 14px;
+            line-height: 14px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        .nav-item.active i {
+            color: var(--success-green);
+        }
+
+        .nav-item.active span {
+            color: var(--success-green);
+            font-weight: 500;
+        }
+
+        .nav-item:hover i,
+        .nav-item:hover span {
+            color: var(--success-green);
+        }
+
+        /* ===== TOAST ===== */
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            .app-container {
+                border-radius: 24px;
+            }
+
+            .fab {
+                bottom: 75px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+            }
+
+            .nav-item {
+                min-width: 40px;
+            }
+
+            .header-wave {
+                padding: 16px 16px 40px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-item {
+                min-width: 36px;
+            }
+            .nav-item i {
+                font-size: 17px;
+                height: 20px;
+                width: 20px;
+            }
+            .nav-item span {
+                font-size: 8px;
+                height: 12px;
+                line-height: 12px;
+            }
+            .bottom-nav {
+                height: 60px;
+                padding: 8px 0 10px;
+            }
+
+            .header-wave {
+                padding: 14px 14px 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== FLOATING ACTION BUTTON ===== -->
+    <button class="fab" aria-label="Tambah makanan" onclick="addFood()">+</button>
+
+    <!-- ===== APP CONTAINER ===== -->
+    <div class="app-container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header-wave">
+            <svg viewBox="0 0 375 170" preserveAspectRatio="none">
+                <path d="M0,0 L375,0 L375,120 C320,148 280,108 220,122 C160,136 120,158 60,142 C30,134 12,126 0,122 Z" fill="#1B5E20"/>
+                <path d="M0,0 L375,0 L375,85 C330,105 295,78 240,90 C185,102 150,118 90,104 C55,96 25,86 0,80 Z" fill="#4CAF50" opacity="0.85"/>
+            </svg>
+
+            <div class="header-content">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="ti ti-arrow-left" aria-hidden="true"></i>
+                </button>
+                <p>Tracking kalori</p>
+            </div>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div style="padding:0 20px 100px;">
+
+            <!-- ===== KALORI CARD ===== -->
+            <div class="card" style="padding:20px; display:flex; align-items:center; gap:18px; margin-bottom:16px;">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <!-- Background circle -->
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#E8F5E9" stroke-width="10"/>
+                    <!-- Progress circle (1240/2000 = 62% → 264 × 0.62 ≈ 164) -->
+                    <circle
+                        class="progress"
+                        cx="50"
+                        cy="50"
+                        r="42"
+                        fill="none"
+                        stroke="#1B5E20"
+                        stroke-width="10"
+                        stroke-dasharray="164 264"
+                        stroke-linecap="round"
+                        transform="rotate(-90 50 50)"
+                    />
+                    <text x="50" y="46" text-anchor="middle" font-size="18" font-weight="500" fill="#1B5E20">1,240</text>
+                    <text x="50" y="62" text-anchor="middle" font-size="10" fill="#2E7D32">dari 2,000 kal</text>
+                </svg>
+
+                <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:11px; color:var(--text-secondary);">Kalori masuk</span>
+                        <span style="font-size:13px; font-weight:500; color:var(--text-primary);">1,240</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:11px; color:var(--text-secondary);">Kalori tersisa</span>
+                        <span style="font-size:13px; font-weight:500; color:var(--orange);">760</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:11px; color:var(--text-secondary);">Target harian</span>
+                        <span style="font-size:13px; font-weight:500; color:var(--text-primary);">2,000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MAKRONUTRIEN CARD ===== -->
+            <div class="card" style="padding:16px 18px; margin-bottom:16px;">
+                <p style="margin:0 0 12px; font-size:13px; font-weight:500; color:var(--text-primary);">📊 Makronutrien hari ini</p>
+
+                <!-- Protein -->
+                <div style="margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-secondary);">
+                        <span>Protein</span>
+                        <span><strong style="color:var(--text-primary);">72</strong> / 120 g</span>
+                    </div>
+                    <div class="macro-bar">
+                        <div class="macro-bar-fill" style="width:60%; background:#4CAF50;"></div>
+                    </div>
+                </div>
+
+                <!-- Karbohidrat -->
+                <div style="margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-secondary);">
+                        <span>Karbohidrat</span>
+                        <span><strong style="color:var(--text-primary);">140</strong> / 220 g</span>
+                    </div>
+                    <div class="macro-bar">
+                        <div class="macro-bar-fill" style="width:64%; background:var(--orange);"></div>
+                    </div>
+                </div>
+
+                <!-- Lemak -->
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-secondary);">
+                        <span>Lemak</span>
+                        <span><strong style="color:var(--text-primary);">40</strong> / 60 g</span>
+                    </div>
+                    <div class="macro-bar">
+                        <div class="macro-bar-fill" style="width:67%; background:#EF5350;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== GRAFIK MINGGUAN ===== -->
+            <p style="margin:0 0 12px; font-size:14px; font-weight:500; color:var(--text-primary);">📈 Grafik konsumsi mingguan</p>
+
+            <div class="card" style="padding:18px; margin-bottom:18px;">
+                <svg width="100%" height="120" viewBox="0 0 320 120">
+                    <!-- Sumbu -->
+                    <line x1="10" y1="20" x2="10" y2="100" stroke="var(--border)" stroke-width="1"/>
+                    <line x1="10" y1="100" x2="310" y2="100" stroke="var(--border)" stroke-width="1"/>
+
+                    <!-- Area fill -->
+                    <path
+                        d="M30,60
+                        L75,45
+                        L120,70
+                        L165,40
+                        L210,55
+                        L255,30
+                        L300,50
+                        L300,100
+                        L30,100 Z"
+                        fill="#4CAF50"
+                        opacity="0.12"
+                    />
+
+                    <!-- Garis grafik -->
+                    <polyline
+                        points="30,60 75,45 120,70 165,40 210,55 255,30 300,50"
+                        fill="none"
+                        stroke="#1B5E20"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <!-- Titik -->
+                    <circle cx="30" cy="60" r="4" fill="#1B5E20"/>
+                    <circle cx="75" cy="45" r="4" fill="#1B5E20"/>
+                    <circle cx="120" cy="70" r="4" fill="#1B5E20"/>
+                    <circle cx="165" cy="40" r="4" fill="#1B5E20"/>
+                    <circle cx="210" cy="55" r="4" fill="#1B5E20"/>
+                    <circle cx="255" cy="30" r="4" fill="var(--orange)"/>
+                    <circle cx="300" cy="50" r="4" fill="#1B5E20"/>
+
+                    <!-- Label hari -->
+                    <text x="30" y="113" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Sen</text>
+                    <text x="75" y="113" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Sel</text>
+                    <text x="120" y="113" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Rab</text>
+                    <text x="165" y="113" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Kam</text>
+                    <text x="210" y="113" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Jum</text>
+                    <text x="255" y="113" text-anchor="middle" font-size="9" fill="var(--orange)" font-weight="600">Sab</text>
+                    <text x="300" y="113" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Min</text>
+                </svg>
+            </div>
+
+            <!-- ===== RIWAYAT MAKANAN ===== -->
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;">
+                <p style="margin:0; font-size:14px; font-weight:500; color:var(--text-primary);">🍽️ Riwayat makanan</p>
+                <span style="font-size:11px; color:var(--success-green); font-weight:500;">Hari ini</span>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+                <!-- Item 1 -->
+                <div class="card" style="padding:12px; display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:10px; background:var(--light-green-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="ti ti-soup" style="font-size:18px; color:var(--success-green);"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">Sup sayur protein</p>
+                        <p style="margin:2px 0 0; font-size:10px; color:var(--text-secondary);">07:30 - Sarapan</p>
+                    </div>
+                    <span style="font-size:12px; font-weight:500; color:var(--text-primary);">280 kal</span>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="card" style="padding:12px; display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:10px; background:var(--light-green-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="ti ti-salad" style="font-size:18px; color:var(--success-green);"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">Salad ayam panggang</p>
+                        <p style="margin:2px 0 0; font-size:10px; color:var(--text-secondary);">12:15 - Makan siang</p>
+                    </div>
+                    <span style="font-size:12px; font-weight:500; color:var(--text-primary);">320 kal</span>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="card" style="padding:12px; display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:10px; background:var(--light-green-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="ti ti-apple" style="font-size:18px; color:var(--success-green);"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">Snack buah segar</p>
+                        <p style="margin:2px 0 0; font-size:10px; color:var(--text-secondary);">16:00 - Camilan</p>
+                    </div>
+                    <span style="font-size:12px; font-weight:500; color:var(--text-primary);">140 kal</span>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="card" style="padding:12px; display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:10px; background:#FFF3E0; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="ti ti-fish" style="font-size:18px; color:#E65100;"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <p style="margin:0; font-size:12px; font-weight:500; color:var(--text-primary);">Ikan bakar + nasi merah</p>
+                        <p style="margin:2px 0 0; font-size:10px; color:var(--text-secondary);">19:00 - Makan malam</p>
+                    </div>
+                    <span style="font-size:12px; font-weight:500; color:var(--text-primary);">420 kal</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== BOTTOM NAVIGATION - STABIL ===== -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="navigateTo('home')">
+                <i class="ti ti-home" aria-hidden="true"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('menu')">
+                <i class="ti ti-menu-2" aria-hidden="true"></i>
+                <span>Menu</span>
+            </button>
+            <button class="nav-item active" onclick="navigateTo('tracking')">
+                <i class="ti ti-chart-bar" aria-hidden="true"></i>
+                <span>Tracking</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('orders')">
+                <i class="ti ti-receipt" aria-hidden="true"></i>
+                <span>Pesanan</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('profile')">
+                <i class="ti ti-user" aria-hidden="true"></i>
+                <span>Profil</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== NAVIGATION =====
+            window.navigateTo = function(page) {
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Find and activate the clicked nav item
+                const targetMap = {
+                    'home': 0,
+                    'menu': 1,
+                    'tracking': 2,
+                    'orders': 3,
+                    'profile': 4
+                };
+
+                const index = targetMap[page];
+                if (index !== undefined && navItems[index]) {
+                    navItems[index].classList.add('active');
+                }
+
+                // Redirect to corresponding page
+                const pageMap = {
+                    'home': 'healthymeal_home_organic_v2.html',
+                    'menu': 'healthymeal_home_organic_v2.html',
+                    'tracking': 'healthymeal_tracking_organic.html',
+                    'orders': 'healthymeal_riwayat_pesanan_organic.html',
+                    'profile': 'healthymeal_profil_organic.html'
+                };
+
+                if (page !== 'tracking') {
+                    showToast(`📱 Buka halaman ${page.charAt(0).toUpperCase() + page.slice(1)}`);
+                    setTimeout(() => {
+                        window.location.href = pageMap[page];
+                    }, 500);
+                }
+            };
+
+            // ===== ADD FOOD =====
+            window.addFood = function() {
+                showToast('🍽️ Buka halaman tambah makanan');
+                // Could redirect to menu or a food entry page
+            };
+
+            // ===== GO BACK =====
+            window.goBack = function() {
+                showToast('Kembali ke beranda');
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== TOAST =====
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }, 2500);
+            }
+
+            // ===== ANIMATE MACRO BARS =====
+            function animateMacroBars() {
+                const macroFills = document.querySelectorAll('.macro-bar-fill');
+                macroFills.forEach(function(fill) {
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(function() {
+                        fill.style.width = width;
+                    }, 100);
+                });
+            }
+
+            // ===== KEYBOARD SUPPORT =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'h' || e.key === 'H') {
+                    navigateTo('home');
+                } else if (e.key === 'm' || e.key === 'M') {
+                    navigateTo('menu');
+                } else if (e.key === 't' || e.key === 'T') {
+                    navigateTo('tracking');
+                } else if (e.key === 'o' || e.key === 'O') {
+                    navigateTo('orders');
+                } else if (e.key === 'p' || e.key === 'P') {
+                    navigateTo('profile');
+                } else if (e.key === 'Escape') {
+                    goBack();
+                }
+            });
+
+            // ===== INIT =====
+            animateMacroBars();
+
+            console.log('🟢 HealthyMeal Tracking siap digunakan!');
+            console.log('💡 Keyboard shortcuts:');
+            console.log('   H - Home | M - Menu | T - Tracking');
+            console.log('   O - Pesanan | P - Profil | Escape - Back');
+
+        })();
+    </script>
+
+</body>
+</html>

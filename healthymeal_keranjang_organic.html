@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>HealthyMeal - Keranjang</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+    <style>
+        /* ============================================
+           ROOT VARIABLES
+           ============================================ */
+        :root {
+            --font-sans: 'Poppins', sans-serif;
+
+            --border: #E5E7EB;
+            --border-strong: #D1D5DB;
+
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+
+            --background: #FAF8F2;
+            --success-green: #1B5E20;
+            --light-green: #4CAF50;
+            --light-green-bg: #E8F5E9;
+            --orange: #FFA726;
+            --danger: #D85A30;
+        }
+
+        /* ============================================
+           RESET & GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e8e8;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ============================================
+           APP CONTAINER
+           ============================================ */
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            background: var(--background);
+            border-radius: 36px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+            font-family: var(--font-sans);
+            position: relative;
+            min-height: 700px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding-bottom: 80px;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 20px 4px;
+        }
+
+        .header .back-btn {
+            font-size: 18px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .header .back-btn:hover {
+            color: var(--success-green);
+            transform: translateX(-3px);
+        }
+
+        .header .title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           CONTENT
+           ============================================ */
+        .content {
+            padding: 16px 20px 100px;
+        }
+
+        /* ============================================
+           CART ITEM
+           ============================================ */
+        .cart-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.10);
+            transform: translateY(-2px);
+        }
+
+        .cart-item .icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: var(--light-green-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cart-item .icon-box i {
+            font-size: 24px;
+            color: var(--success-green);
+        }
+
+        .cart-item .info {
+            flex: 1;
+        }
+
+        .cart-item .info .name {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .cart-item .info .price {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        /* ===== QUANTITY CONTROLS ===== */
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            border: 0.5px solid var(--border-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-sans);
+        }
+
+        .qty-btn:hover {
+            background: #F3F4F6;
+            border-color: var(--text-muted);
+        }
+
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+
+        .qty-btn.primary {
+            background: var(--success-green);
+            border-color: var(--success-green);
+        }
+
+        .qty-btn.primary:hover {
+            background: #2E7D32;
+            border-color: #2E7D32;
+        }
+
+        .qty-btn i {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .qty-btn.primary i {
+            color: #fff;
+        }
+
+        .qty-value {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* ===== DELETE BUTTON ===== */
+        .delete-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .cart-item:hover .delete-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .delete-btn:hover {
+            background: #FEE2E2;
+            border-color: #EF4444;
+            color: #EF4444;
+        }
+
+        /* ============================================
+           VOUCHER SECTION
+           ============================================ */
+        .voucher-section {
+            background: var(--light-green-bg);
+            border: 1px dashed #66BB6A;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voucher-section:hover {
+            background: #C8E6C9;
+            border-color: var(--success-green);
+        }
+
+        .voucher-section .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voucher-section .left i {
+            font-size: 18px;
+            color: var(--success-green);
+        }
+
+        .voucher-section .left span {
+            font-size: 12px;
+            color: var(--success-green);
+            font-weight: 500;
+        }
+
+        .voucher-section .right {
+            font-size: 11px;
+            color: var(--success-green);
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+        }
+
+        .voucher-section .right:hover {
+            color: #2E7D32;
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           SUMMARY
+           ============================================ */
+        .summary {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .summary .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary .row .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .summary .row .value {
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+
+        .summary .row .value.discount {
+            color: var(--danger);
+        }
+
+        .summary .divider {
+            height: 0.5px;
+            background: var(--border);
+            margin: 10px 0;
+        }
+
+        .summary .total {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary .total .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .summary .total .value {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--success-green);
+        }
+
+        /* ============================================
+           CHECKOUT BUTTON
+           ============================================ */
+        .checkout-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 0.5px solid var(--border);
+            padding: 14px 20px 18px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .checkout-btn {
+            background: var(--orange);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 14px;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 167, 38, 0.30);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkout-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .checkout-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .checkout-btn:hover {
+            background: #FB8C00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 167, 38, 0.40);
+        }
+
+        .checkout-btn:active {
+            transform: translateY(0);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ============================================
+           EMPTY CART
+           ============================================ */
+        .empty-cart {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-cart i {
+            font-size: 64px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart h3 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-cart p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart .btn-shop {
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 12px;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .empty-cart .btn-shop:hover {
+            background: #2E7D32;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(27, 94, 32, 0.25);
+        }
+
+        /* ============================================
+           TOAST NOTIFICATION
+           ============================================ */
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-family: var(--font-sans);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 400px) {
+            .app-container {
+                border-radius: 24px;
+            }
+
+            .content {
+                padding: 12px 16px 80px;
+            }
+
+            .cart-item {
+                padding: 12px;
+            }
+
+            .cart-item .icon-box {
+                width: 48px;
+                height: 48px;
+            }
+
+            .cart-item .icon-box i {
+                font-size: 20px;
+            }
+
+            .checkout-wrapper {
+                padding: 12px 16px 16px;
+            }
+
+            .checkout-btn {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .cart-item .icon-box {
+                width: 40px;
+                height: 40px;
+            }
+
+            .cart-item .icon-box i {
+                font-size: 18px;
+            }
+
+            .cart-item .info .name {
+                font-size: 12px;
+            }
+
+            .qty-btn {
+                width: 22px;
+                height: 22px;
+            }
+
+            .qty-btn i {
+                font-size: 11px;
+            }
+
+            .qty-value {
+                font-size: 12px;
+                min-width: 16px;
+            }
+
+            .summary .total .value {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    APP CONTAINER
+    ============================================ -->
+    <div class="app-container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">
+                <i class="ti ti-arrow-left" aria-hidden="true"></i>
+            </button>
+            <p class="title">Keranjang</p>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div class="content" id="cartContent">
+
+            <!-- ===== CART ITEMS ===== -->
+            <div id="cartItems" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+
+                <!-- Item 1 - Salad -->
+                <div class="cart-item" data-id="1">
+                    <button class="delete-btn" onclick="removeItem(this)" title="Hapus item">
+                        <i class="ti ti-x" aria-hidden="true"></i>
+                    </button>
+                    <div class="icon-box">
+                        <i class="ti ti-salad" aria-hidden="true"></i>
+                    </div>
+                    <div class="info">
+                        <p class="name">Salad ayam panggang quinoa</p>
+                        <p class="price">Rp 35.000</p>
+                    </div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty(this, -1)">
+                            <i class="ti ti-minus" aria-hidden="true"></i>
+                        </button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn primary" onclick="updateQty(this, 1)">
+                            <i class="ti ti-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Item 2 - Sup -->
+                <div class="cart-item" data-id="2">
+                    <button class="delete-btn" onclick="removeItem(this)" title="Hapus item">
+                        <i class="ti ti-x" aria-hidden="true"></i>
+                    </button>
+                    <div class="icon-box">
+                        <i class="ti ti-soup" aria-hidden="true"></i>
+                    </div>
+                    <div class="info">
+                        <p class="name">Sup sayur protein</p>
+                        <p class="price">Rp 32.000</p>
+                    </div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty(this, -1)">
+                            <i class="ti ti-minus" aria-hidden="true"></i>
+                        </button>
+                        <span class="qty-value">2</span>
+                        <button class="qty-btn primary" onclick="updateQty(this, 1)">
+                            <i class="ti ti-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Item 3 - Paket Diet -->
+                <div class="cart-item" data-id="3">
+                    <button class="delete-btn" onclick="removeItem(this)" title="Hapus item">
+                        <i class="ti ti-x" aria-hidden="true"></i>
+                    </button>
+                    <div class="icon-box">
+                        <i class="ti ti-leaf" aria-hidden="true"></i>
+                    </div>
+                    <div class="info">
+                        <p class="name">Paket diet 7 hari</p>
+                        <p class="price">Rp 245.000</p>
+                    </div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty(this, -1)">
+                            <i class="ti ti-minus" aria-hidden="true"></i>
+                        </button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn primary" onclick="updateQty(this, 1)">
+                            <i class="ti ti-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== EMPTY CART ===== -->
+            <div class="empty-cart" id="emptyCart">
+                <i class="ti ti-shopping-cart" aria-hidden="true"></i>
+                <h3>Keranjang kosong</h3>
+                <p>Yuk, mulai pesan menu sehat favoritmu!</p>
+                <button class="btn-shop" onclick="goShop()">Mulai Belanja</button>
+            </div>
+
+            <!-- ===== VOUCHER SECTION ===== -->
+            <div class="voucher-section" onclick="applyVoucher()">
+                <div class="left">
+                    <i class="ti ti-ticket" aria-hidden="true"></i>
+                    <span>Punya kode voucher?</span>
+                </div>
+                <button class="right">Pakai</button>
+            </div>
+
+            <!-- ===== SUMMARY ===== -->
+            <div class="summary" id="summary">
+                <div class="row">
+                    <span class="label">Subtotal</span>
+                    <span class="value" id="subtotal">Rp 344.000</span>
+                </div>
+                <div class="row">
+                    <span class="label">Diskon voucher</span>
+                    <span class="value discount" id="discount">-Rp 20.000</span>
+                </div>
+                <div class="row">
+                    <span class="label">Biaya pengiriman</span>
+                    <span class="value" id="shipping">Rp 10.000</span>
+                </div>
+                <div class="divider"></div>
+                <div class="total">
+                    <span class="label">Total</span>
+                    <span class="value" id="total">Rp 334.000</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== CHECKOUT BUTTON ===== -->
+        <div class="checkout-wrapper">
+            <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">
+                Checkout - <span id="checkoutTotal">Rp 334.000</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== CART DATA =====
+            let cartItems = [
+                { id: 1, name: 'Salad ayam panggang quinoa', price: 35000, qty: 1, icon: 'ti-salad' },
+                { id: 2, name: 'Sup sayur protein', price: 32000, qty: 2, icon: 'ti-soup' },
+                { id: 3, name: 'Paket diet 7 hari', price: 245000, qty: 1, icon: 'ti-leaf' }
+            ];
+
+            let voucherApplied = false;
+            const voucherDiscount = 20000;
+            const shippingCost = 10000;
+
+            // ===== DOM REFERENCES =====
+            const cartItemsContainer = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            // ===== RENDER CART =====
+            function renderCart() {
+                if (cartItems.length === 0) {
+                    cartItemsContainer.style.display = 'none';
+                    emptyCart.style.display = 'flex';
+                    checkoutBtn.disabled = true;
+                    return;
+                }
+
+                cartItemsContainer.style.display = 'flex';
+                emptyCart.style.display = 'none';
+                checkoutBtn.disabled = false;
+
+                updateSummary();
+            }
+
+            // ===== UPDATE QUANTITY =====
+            window.updateQty = function(btn, delta) {
+                const item = btn.closest('.cart-item');
+                const id = parseInt(item.dataset.id);
+                const qtySpan = item.querySelector('.qty-value');
+                let currentQty = parseInt(qtySpan.textContent);
+                const newQty = currentQty + delta;
+
+                if (newQty < 1) {
+                    showToast('Minimal 1 item');
+                    return;
+                }
+
+                const cartItem = cartItems.find(i => i.id === id);
+                if (cartItem) {
+                    cartItem.qty = newQty;
+                    qtySpan.textContent = newQty;
+                    updateSummary();
+                }
+            };
+
+            // ===== REMOVE ITEM =====
+            window.removeItem = function(btn) {
+                const item = btn.closest('.cart-item');
+                const id = parseInt(item.dataset.id);
+
+                cartItems = cartItems.filter(i => i.id !== id);
+
+                item.style.transform = 'scale(0.8)';
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    item.remove();
+                    renderCart();
+                    showToast('Item telah dihapus');
+                }, 300);
+            };
+
+            // ===== UPDATE SUMMARY =====
+            function updateSummary() {
+                const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const discount = voucherApplied ? voucherDiscount : 0;
+                const total = subtotal - discount + shippingCost;
+
+                document.getElementById('subtotal').textContent = `Rp ${formatPrice(subtotal)}`;
+                document.getElementById('discount').textContent = discount > 0 ? `-Rp ${formatPrice(discount)}` : 'Rp 0';
+                document.getElementById('total').textContent = `Rp ${formatPrice(total)}`;
+                document.getElementById('checkoutTotal').textContent = `Rp ${formatPrice(total)}`;
+            }
+
+            // ===== FORMAT PRICE =====
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            // ===== APPLY VOUCHER =====
+            window.applyVoucher = function() {
+                if (voucherApplied) {
+                    showToast('Voucher sudah digunakan');
+                    return;
+                }
+
+                if (cartItems.length === 0) {
+                    showToast('Keranjang kosong');
+                    return;
+                }
+
+                const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                if (subtotal < 50000) {
+                    showToast('Minimal belanja Rp 50.000 untuk menggunakan voucher');
+                    return;
+                }
+
+                voucherApplied = true;
+                updateSummary();
+                showToast('✅ Voucher berhasil digunakan! Potongan Rp 20.000');
+            };
+
+            // ===== CHECKOUT - Redirect to Checkout Page =====
+            window.checkout = function() {
+                if (cartItems.length === 0) {
+                    showToast('Keranjang kosong');
+                    return;
+                }
+
+                const total = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0) -
+                    (voucherApplied ? voucherDiscount : 0) + shippingCost;
+
+                showToast(`🛒 Melanjutkan ke checkout... Total: Rp ${formatPrice(total)}`);
+                
+                // Redirect to checkout page after 1 second
+                setTimeout(() => {
+                    window.location.href = 'healthymeal_checkout_organic.html';
+                }, 1000);
+            };
+
+            // ===== GO BACK - Redirect to Home =====
+            window.goBack = function() {
+                showToast('Kembali ke beranda');
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== GO SHOP - Redirect to Home =====
+            window.goShop = function() {
+                showToast('Mulai berbelanja!');
+                window.location.href = 'healthymeal_home_organic_v2.html';
+            };
+
+            // ===== TOAST NOTIFICATION =====
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                });
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }, 2500);
+            }
+
+            // ===== KEYBOARD SUPPORT =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    checkout();
+                } else if (e.key === 'Escape') {
+                    goBack();
+                }
+            });
+
+            // ===== INIT =====
+            renderCart();
+            console.log('🟢 HealthyMeal Cart siap digunakan!');
+            console.log(`📦 ${cartItems.length} item di keranjang`);
+            console.log('💡 Hover item untuk melihat tombol hapus');
+            console.log('   Enter → Checkout');
+            console.log('   Escape → Kembali ke Home');
+
+        })();
+    </script>
+
+</body>
+</html>
